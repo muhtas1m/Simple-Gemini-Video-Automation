@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOMATION STUDIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #572801;
+            --secondary: #491309;
+            --bg-dark: #030712;
+            --card-bg: rgba(40, 27, 20, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --input-bg: rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(34, 142, 181, 0.15), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15), transparent 40%);
+        }
+
+        .container {
+            width: 900px;
+            background: var(--card-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.2rem;
+            margin: 0;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle { color: #64748b; font-weight: 400; margin-bottom: 2rem; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+
+        label {
+            display: block;
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0,0,0,0.5);
+        }
+
+        /* Checkbox Group */
+        .scope-container {
+            grid-column: span 2;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 16px;
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border);
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        
+        input[type="checkbox"] { display: none; }
+        input[type="checkbox"]:checked + .custom-checkbox {
+            background: var(--primary);
+        }
+        input[type="checkbox"]:checked + .custom-checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+        }
+
+        .check-label { font-size: 0.9rem; font-weight: 600; color: #cbd5e1; }
+
+        /* Sliders */
+        .range-wrap { display: flex; align-items: center; gap: 10px; }
+        .range-val { width: 40px; text-align: center; color: var(--secondary); font-weight: bold; }
+
+        /* Button */
+        .btn-main {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px -10px var(--primary);
+        }
+        .btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* Status */
+        .status-bar {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            display: none;
+        }
+        .pulse { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-dim);
+            opacity: 0.6;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AUTOMATION STUDIO</h1>
+    <div class="subtitle">GEMINI Automation Pipeline</div>
+
+    <div class="grid">
+        <div class="full-width">
+            <label>Project Title</label>
+            <input type="text" id="title" placeholder="e.g. The Quantum Paradox">
+        </div>
+
+        <div class="scope-container">
+            <label class="checkbox-wrapper">
+                <input type="checkbox" id="doScript" checked>
+                <div class="custom-checkbox"></div>
+                <span class="check-label">Script</span>
+            </label>
+            <label class="checkbox-wrapper">
+                <input type="checkbox" id="doVoice" checked>
+                <div class="custom-checkbox"></div>
+                <span class="check-label">Voiceover</span>
+            </label>
+            <label class="checkbox-wrapper">
+                <input type="checkbox" id="doPrompts" checked>
+                <div class="custom-checkbox"></div>
+                <span class="check-label">Prompts</span>
+            </label>
+            <label class="checkbox-wrapper">
+                <input type="checkbox" id="doImages" checked>
+                <div class="custom-checkbox"></div>
+                <span class="check-label">Images</span>
+            </label>
+        </div>
+        
+        <div class="full-width">
+            <label>Context / Description</label>
+            <textarea id="description" rows="2" placeholder="What is the video about?"></textarea>
+        </div>
+
+        <div>
+            <label>Script Length (Words)</label>
+            <div class="range-wrap">
+                <input type="range" id="wordCount" min="300" max="2000" step="100" value="500" oninput="document.getElementById('wcVal').innerText = this.value">
+                <span class="range-val" id="wcVal">500</span>
+            </div>
+        </div>
+
+        <div>
+            <label>Image Count</label>
+            <div class="range-wrap">
+                <input type="range" id="imgCount" min="1" max="50" step="1" value="10" oninput="document.getElementById('icVal').innerText = this.value">
+                <span class="range-val" id="icVal">10</span>
+            </div>
+        </div>
+
+        <div class="full-width">
+            <label>Visual Style Prompt</label>
+            <textarea id="artStyle" rows="2" placeholder="e.g. Silhouette art, Geometric art, beige parchment background..."></textarea>
+        </div>
+    </div>
+
+    <button class="btn-main" id="generateBtn" onclick="runPipeline()">Generate</button>
+
+    <div class="status-bar" id="statusBar">
+        <div class="pulse" id="statusText">Processing...</div>
+    </div>
+    <div class="footer">
+            Made by <a href="https://github.com/muhtas1m" target="_blank">muhtas1m</a>
+        </div>
+</div>
+
+<script>
+    async function runPipeline() {
+        const title = document.getElementById('title').value;
+        const btn = document.getElementById('generateBtn');
+        const statusBar = document.getElementById('statusBar');
+        const statusText = document.getElementById('statusText');
+
+        if(!title) { alert("Title is required!"); return; }
+
+        btn.disabled = true;
+        btn.innerText = "RUNNING...";
+        statusBar.style.display = "block";
+        statusText.innerText = "Pipeline Active: Please wait for completion...";
+
+        const payload = {
+            title: title,
+            description: document.getElementById('description').value,
+            word_count: document.getElementById('wordCount').value,
+            img_count: document.getElementById('imgCount').value,
+            art_style: document.getElementById('artStyle').value,
+            // Checkbox States
+            do_script: document.getElementById('doScript').checked,
+            do_voice: document.getElementById('doVoice').checked,
+            do_prompts: document.getElementById('doPrompts').checked,
+            do_images: document.getElementById('doImages').checked
+        };
+
+        try {
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+
+            alert("SUCCESS!\nFiles saved in: " + data.folder);
+            statusText.innerText = "Done!";
+            btn.innerText = "START NEW PROJECT";
+
+        } catch (e) {
+            alert("Error: " + e.message);
+            statusText.innerText = "Error: " + e.message;
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
